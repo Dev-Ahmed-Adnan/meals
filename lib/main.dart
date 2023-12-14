@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/screens/categories_screen.dart';
-import 'package:meals/screens/favorites.dart';
+import 'package:meals/store/favorites_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:meals/screens/meals_list.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 163, 25, 15));
 var kDarkColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 168, 126, 20));
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => FavoriteProvider(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,11 +47,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const CategoriesPage(),
-      // home: const Favorites(),
-      // routes: {
-      //   "/": (context) => const CategoriesPage(),
-      //   "/meals_list": (context) => const MealsList(),
-      // },
     );
   }
 }

@@ -15,15 +15,23 @@ class CreateBottomBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {
-        index == 0 ? Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CategoriesPage())) : Navigator.push(context, MaterialPageRoute(builder: (ctx) => const Favorites()));
+        index == 0
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => const CategoriesPage()),
+              )
+            : Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => const Favorites()),
+              );
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.star),
+          icon: Icon(Icons.set_meal),
           label: "Categories",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category),
+          icon: Icon(Icons.star),
           label: "Favorites",
         ),
       ],

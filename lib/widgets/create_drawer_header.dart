@@ -12,13 +12,14 @@ class CreateDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      padding: const EdgeInsets.only(left: 20, bottom: 40),
+    return DrawerHeader(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        border: const Border(
-          bottom: BorderSide(width: 3, color: Color.fromARGB(255, 88, 87, 87)),
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.primary.withOpacity(0.55),
+            Theme.of(context).colorScheme.primary.withOpacity(0.9),
+          ],
         ),
       ),
       child: Column(

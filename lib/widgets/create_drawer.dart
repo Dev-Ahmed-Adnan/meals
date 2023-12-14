@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals/screens/categories_screen.dart';
+import 'package:meals/screens/filters_page.dart';
 import 'package:meals/widgets/create_drawer_header.dart';
 import 'package:meals/widgets/create_drawer_tile.dart';
 
@@ -13,11 +15,24 @@ class CreateDrawer extends StatelessWidget {
       child: Column(
         children: [
           const CreateDrawerHeader(),
-          Column(
-            children: [
-              DrawerTile(title: "Meals", icon: Icons.no_meals_rounded, onTilePress: () {}),
-              DrawerTile(title: "Fitlers", icon: Icons.settings, onTilePress: () {}),
-            ],
+          DrawerTile(
+              title: "Meals",
+              icon: Icons.no_meals_rounded,
+              onTilePress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) => const CategoriesPage()),
+                );
+              }),
+          DrawerTile(
+            title: "Fitlers",
+            icon: Icons.settings,
+            onTilePress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => const FiltersPage()),
+              );
+            },
           )
         ],
       ),

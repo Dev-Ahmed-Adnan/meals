@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:meals/models/category.dart';
 import 'package:meals/screens/meals_list.dart';
@@ -12,7 +14,7 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         // Navigator.pushNamed(context, "/meals_list");
         Navigator.push(
@@ -25,16 +27,22 @@ class CategoryItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: categoryItem.color,
+          // color: categoryItem.color,
+          gradient: LinearGradient(
+            colors: [
+              categoryItem.color.withOpacity(0.4),
+              categoryItem.color.withOpacity(0.9),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
         padding: const EdgeInsets.all(20),
         child: Text(
           categoryItem.title,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.background,
+              ),
         ),
       ),
     );
