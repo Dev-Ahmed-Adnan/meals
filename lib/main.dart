@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/screens/categories_screen.dart';
-import 'package:meals/store/favorites_provider.dart';
-import 'package:provider/provider.dart';
-// import 'package:meals/screens/meals_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 163, 25, 15));
 var kDarkColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 168, 126, 20));
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => FavoriteProvider(),
-    child: const MyApp(),
+  runApp(const ProviderScope(
+    child: MyApp(),
   ));
 }
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/category.dart';
 import 'package:meals/models/dummy_data.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/providers/filters_provider.dart';
 import 'package:meals/screens/meal_details.dart';
-import 'package:meals/store/favorites_provider.dart';
 import 'package:meals/widgets/meals_list_item.dart';
-import 'package:provider/provider.dart';
 
-class MealsList extends StatefulWidget {
+class MealsList extends ConsumerStatefulWidget {
   final Category mealCategory;
 
   MealsList({super.key, required this.mealCategory})
@@ -20,32 +20,24 @@ class MealsList extends StatefulWidget {
   late final List<Meal> mealsItems;
 
   @override
-  State<MealsList> createState() => _MealsListState();
+  ConsumerState<MealsList> createState() => _MealsListState();
 }
 
-class _MealsListState extends State<MealsList> {
+class _MealsListState extends ConsumerState<MealsList> {
   @override
   Widget build(BuildContext context) {
     List<Meal> filteredMealItems = widget.mealsItems;
-    // var activeFilters = Provider.of<FavoriteProvider>(context, listen: true).activeFilters;
 
-    // if (activeFilters.isNotEmpty) {
-    //   for (var _filter in activeFilters) {
-    //     widget.mealsItems.where((element) => element.'{_filter.value}' == true);
-    //     //  filteredMealItems.add()
-    //   }
-    // }
-
-    if (Provider.of<FavoriteProvider>(context, listen: true).isGlutenFreeFilter) {
+    if (ref.watch(filterProvider)["isGlutenFree"] == true) {
       filteredMealItems = filteredMealItems.where((element) => element.isGlutenFree).toList();
     }
-    if (Provider.of<FavoriteProvider>(context, listen: true).isLactoseFreeFilter) {
+    if (ref.watch(filterProvider)["isLactoseFree"] == true) {
       filteredMealItems = filteredMealItems.where((element) => element.isLactoseFree).toList();
     }
-    if (Provider.of<FavoriteProvider>(context, listen: true).isVeganFilter) {
+    if (ref.watch(filterProvider)["isVegetarian"] == true) {
       filteredMealItems = filteredMealItems.where((element) => element.isVegan).toList();
     }
-    if (Provider.of<FavoriteProvider>(context, listen: true).isVegetarianFilter) {
+    if (ref.watch(filterProvider)["isVegan"] == true) {
       filteredMealItems = filteredMealItems.where((element) => element.isVegetarian).toList();
     }
 

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:meals/helpers/show_snack_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/meal.dart';
-import 'package:meals/store/favorites_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:meals/providers/favorites_provider.dart';
 
-class MealDetails extends StatefulWidget {
+class MealDetails extends ConsumerStatefulWidget {
   const MealDetails({super.key, required this.mealItem});
 
   final Meal mealItem;
 
   @override
-  State<MealDetails> createState() => _MealDetailsState();
+  ConsumerState<MealDetails> createState() => _MealDetailsState();
 }
 
-class _MealDetailsState extends State<MealDetails> {
+class _MealDetailsState extends ConsumerState<MealDetails> {
   var icon = Icons.star_border;
 
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<FavoriteProvider>(context, listen: true).favoritesList.contains(widget.mealItem)) {
-      icon = Icons.star;
+    if (ref.watch(favoritesProvider).contains(widget.mealItem)) {
+      setState(() {
+        icon = Icons.star;
+      });
     } else {
-      icon = Icons.star_border;
+      setState(() {
+        icon = Icons.star_border;
+      });
     }
 
     return Scaffold(
@@ -30,14 +33,7 @@ class _MealDetailsState extends State<MealDetails> {
         actions: [
           IconButton(
             onPressed: () {
-              if (Provider.of<FavoriteProvider>(context, listen: false).favoritesList.contains(widget.mealItem)) {
-                Provider.of<FavoriteProvider>(context, listen: false).removeToFavorites(widget.mealItem);
-                showSnackBar(context, "Meal removed from favorites list!");
-              } else {
-                Provider.of<FavoriteProvider>(context, listen: false).addToFavorites(widget.mealItem);
-                showSnackBar(context, "Meal added to favorites list!");
-              }
-              // Provider.of<FavoriteProvider>(context, listen: false).favoritesList.contains(widget.mealItem) ? print("yes") : print("no");
+              ref.read(favoritesProvider.notifier).toggleIsFavorites(widget.mealItem, context);
             },
             icon: Icon(icon),
           ),

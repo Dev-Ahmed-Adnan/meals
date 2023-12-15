@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/screens/meal_details.dart';
-import 'package:meals/store/favorites_provider.dart';
+import 'package:meals/providers/favorites_provider.dart';
 import 'package:meals/widgets/create_bottom_bar.dart';
 import 'package:meals/widgets/create_drawer.dart';
 import 'package:meals/widgets/meals_list_item.dart';
-import 'package:provider/provider.dart';
 
-class Favorites extends StatefulWidget {
+class Favorites extends ConsumerStatefulWidget {
   const Favorites({super.key});
 
   @override
-  State<Favorites> createState() => _FavoritesState();
+  ConsumerState<Favorites> createState() => _FavoritesState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class _FavoritesState extends ConsumerState<Favorites> {
   Widget? favoritesList;
 
   @override
   Widget build(BuildContext context) {
-    var items = Provider.of<FavoriteProvider>(context, listen: true).favoritesList;
+    var items = ref.watch(favoritesProvider);
 
     if (items.isNotEmpty) {
       setState(() {

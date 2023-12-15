@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/filter_model.dart';
-import 'package:meals/store/favorites_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:meals/providers/filters_provider.dart';
 
-class FilterItem extends StatelessWidget {
+class FilterItem extends ConsumerWidget {
   const FilterItem(this.item, {super.key});
 
   final FilterModel item;
 
   @override
-  Widget build(BuildContext context) {
-    // var activeFilters = Provider.of<FavoriteProvider>(context, listen: true).activeFilters;
-    late final bool isActive;
-
-    if (item.value == "isGlutenFree") {
-      isActive = Provider.of<FavoriteProvider>(context, listen: true).isGlutenFreeFilter;
-    } else if (item.value == "isLactoseFree") {
-      isActive = Provider.of<FavoriteProvider>(context, listen: true).isLactoseFreeFilter;
-    } else if (item.value == "isVegetarian") {
-      isActive = Provider.of<FavoriteProvider>(context, listen: true).isVegetarianFilter;
-    } else if (item.value == "isVegan") {
-      isActive = Provider.of<FavoriteProvider>(context, listen: true).isVeganFilter;
-    }
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile(
       title: Text(
         item.title,
@@ -36,25 +23,9 @@ class FilterItem extends StatelessWidget {
               color: Colors.white,
             ),
       ),
-      value: isActive,
+      value: ref.watch(filterProvider)[item.value] == true,
       onChanged: (value) {
-        // activeFilters.contains(item) ? Provider.of<FavoriteProvider>(context, listen: false).removeFilter(item) : Provider.of<FavoriteProvider>(context, listen: false).addFilter(item);
-        switch (item.value) {
-          case "isGlutenFree":
-            Provider.of<FavoriteProvider>(context, listen: false).isGlutenFreeFilterTriger();
-            break;
-          case "isLactoseFree":
-            Provider.of<FavoriteProvider>(context, listen: false).isLactoseFreeFilterTriger();
-            break;
-          case "isVegetarian":
-            Provider.of<FavoriteProvider>(context, listen: false).isVegetarianFilterTriger();
-            break;
-          case "isVegan":
-            Provider.of<FavoriteProvider>(context, listen: false).isVeganFilterTriger();
-            break;
-          default:
-            return;
-        }
+        ref.read(filterProvider.notifier).setFilter(item.value, value);
       },
     );
   }
