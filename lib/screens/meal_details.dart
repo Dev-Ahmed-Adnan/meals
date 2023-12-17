@@ -13,17 +13,17 @@ class MealDetails extends ConsumerStatefulWidget {
 }
 
 class _MealDetailsState extends ConsumerState<MealDetails> {
-  var icon = Icons.star_border;
+  var isFav = false;
 
   @override
   Widget build(BuildContext context) {
     if (ref.watch(favoritesProvider).contains(widget.mealItem)) {
       setState(() {
-        icon = Icons.star;
+        isFav = true;
       });
     } else {
       setState(() {
-        icon = Icons.star_border;
+        isFav = false;
       });
     }
 
@@ -35,7 +35,20 @@ class _MealDetailsState extends ConsumerState<MealDetails> {
             onPressed: () {
               ref.read(favoritesProvider.notifier).toggleIsFavorites(widget.mealItem, context);
             },
-            icon: Icon(icon),
+            // icon: Icon(icon),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFav ? Icons.star : Icons.star_border,
+                key: ValueKey(isFav),
+              ),
+            ),
           ),
         ],
       ),
@@ -43,7 +56,7 @@ class _MealDetailsState extends ConsumerState<MealDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(widget.mealItem.imageUrl),
+            Hero(tag: widget.mealItem.id, child: Image.network(widget.mealItem.imageUrl)),
             const SizedBox(height: 20),
             Text(
               "Ingredients",

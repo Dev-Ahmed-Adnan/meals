@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meals/screens/categories_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals/screens/splash_screen.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 163, 25, 15));
 var kDarkColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 168, 126, 20));
 
 void main() {
+  timeDilation = 1.5;
   runApp(const ProviderScope(
     child: MyApp(),
   ));
@@ -42,8 +44,17 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme().copyWith(
           titleLarge: const TextStyle(color: Colors.white),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: kColorScheme.primary,
+            side: BorderSide(color: kColorScheme.primary),
+            textStyle: Theme.of(context).textTheme.headlineSmall,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+          ),
+        ),
       ),
-      home: const CategoriesPage(),
+      // home: const CategoriesPage(),
+      home: const Splash(),
     );
   }
 }
